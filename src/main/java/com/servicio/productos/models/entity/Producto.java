@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,5 +29,7 @@ public class Producto implements Serializable {
 	@Column(name ="create_at")
 	@Temporal(TemporalType.DATE) // Configurar como se va a guardar la fecha
 	private Date createAt;
+	@Transient
+	private Integer port;
 	private static final long serialVersionUID = -9121884191000533857L; //Identificador al array de bytes
 }
