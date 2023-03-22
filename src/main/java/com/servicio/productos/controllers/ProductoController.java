@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +17,12 @@ import com.servicio.productos.models.service.IProductoService;
 @RestController //Convierte a JSON los datos pasados por el handler (response body), indica api rest
 public class ProductoController {
 
-	@Autowired
-	private Environment env;
+	// @Autowired
+	// private Environment env;
+
+	@Value("${server.port}")
+	private Integer port;
+
 
 	@Autowired
 	private IProductoService productoService;
@@ -30,7 +35,7 @@ public class ProductoController {
 		// 	return list;
 		// };
 		return  productoService.findAll().stream().map(p -> {
-			p.setPort(Integer.parseInt(env.getProperty("local.server.port")));
+			p.setPort(port);
 			return p;
 		}).collect(Collectors.toList());
 	}
@@ -38,7 +43,7 @@ public class ProductoController {
 	@GetMapping("/ver/{id}")
 	public Producto detalle(@PathVariable Long id) {
 		Producto producto = productoService.findById(id);
-		producto.setPort(Integer.parseInt(env.getProperty("local.server.port")));
+		producto.setPort(port);
 		return producto;
 	}
 }
